@@ -5,6 +5,8 @@ const typeDefs = gql`
     id: ID!
     username: String!
     email: String!
+    created_at: String!
+    updated_at: String!
   }
 
   type Employee {
@@ -21,18 +23,24 @@ const typeDefs = gql`
   }
 
   type Query {
-    login(username: String, email: String, password: String!): String
+    login(username: String, email: String, password: String!): AuthPayload!
     getAllEmployees: [Employee]
     searchEmployeeById(id: ID!): Employee
     searchEmployeeByDesignationOrDepartment(designation: String, department: String): [Employee]
   }
 
   type Mutation {
-    signup(username: String!, email: String!, password: String!): User
+    signup(username: String!, email: String!, password: String!, ): User
     addEmployee(first_name: String!, last_name: String!, email: String!, gender: String!, designation: String!, salary: Float!, date_of_joining: String!, department: String!, employee_photo: String): Employee
     updateEmployee(id: ID!, first_name: String, last_name: String, email: String, designation: String, salary: Float, department: String, employee_photo: String): Employee
     deleteEmployee(id: ID!): String
   }
+
+  type AuthPayload {
+    token: String!
+    user: User!
+  }
+
 `;
 
 module.exports = typeDefs;

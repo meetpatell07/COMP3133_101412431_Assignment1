@@ -4,13 +4,18 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 const resolvers = {
+
     Query: {
         login: async (_, { username, email, password }) => {
             const user = await User.findOne({ $or: [{ email }, { username }] });
+
             if (!user) throw new Error("User not found");
             const isMatch = await bcrypt.compare(password, user.password);
+
             if (!isMatch) throw new Error("Invalid credentials");
-            return jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+            const token = jwt.sign({ id: user.id }, process.env.JWT_SECRET, { expiresIn: "1h" });
+            return { token, user }; // Return both token & user
+
         },
         getAllEmployees: async () => await Employee.find(),
         searchEmployeeById: async (_, { id }) => await Employee.findById(id),
