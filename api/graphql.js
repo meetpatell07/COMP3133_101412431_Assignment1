@@ -16,8 +16,13 @@ module.exports = async (req, res) => {
     await connectDB(); // Connect to your DB (MongoDB)
 
     const app = express();
-    const apolloServer = new ApolloServer({ typeDefs, resolvers });
 
+    // Add a simple entry point for successful deployment
+    app.get("/", (req, res) => {
+      res.status(200).send("Backend deployed successfully!");
+    });
+
+    const apolloServer = new ApolloServer({ typeDefs, resolvers });
     await apolloServer.start();
     apolloServer.applyMiddleware({ app, path: "/api/graphql" });
 
