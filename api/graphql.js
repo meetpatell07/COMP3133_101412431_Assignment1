@@ -14,7 +14,8 @@ module.exports = async (req, res) => {
 
     const app = express();
 
-    const server = new ApolloServer({ typeDefs, resolvers });
+    const server = new ApolloServer({ typeDefs, resolvers,   cache: 'bounded', // Add this
+    });
     await server.start();
     server.applyMiddleware({ app, path: "/api/graphql" });
 
