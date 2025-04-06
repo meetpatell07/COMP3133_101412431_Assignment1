@@ -1,23 +1,22 @@
-// api/graphql.js
+// /api/graphql.js
 const express = require("express");
 const { ApolloServer } = require("apollo-server-express");
 const connectDB = require("../db");
 const typeDefs = require("../graphql/schema");
 const resolvers = require("../graphql/resolvers");
-const { createServer } = require("http");
-const { parse } = require("url");
+const serverless = require("serverless-http");
 
 require("dotenv").config();
 
-let serverInstance;
+let handler;
 
 module.exports = async (req, res) => {
-  if (!serverInstance) {
-    await connectDB(); // Connect to your DB (MongoDB)
+  if (!handler) {
+    await connectDB();
 
     const app = express();
 
-    // Add a simple entry point for successful deployment
+    // Simple deployment test
     app.get("/", (req, res) => {
       res.status(200).send("Backend deployed successfully!");
     });
@@ -26,9 +25,8 @@ module.exports = async (req, res) => {
     await apolloServer.start();
     apolloServer.applyMiddleware({ app, path: "/api/graphql" });
 
-    serverInstance = app;
+    handler = serverless(app); // Wrap app as serverless function
   }
 
-  const parsedUrl = parse(req.url, true);
-  serverInstance(req, res);
+  return handler(req, res);
 };
