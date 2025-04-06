@@ -6,7 +6,7 @@ const resolvers = require("./graphql/resolvers");
 require("dotenv").config();
 
 
-
+// Vercel Deployment starting
 require("dotenv").config();
 connectDB();
 
