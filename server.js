@@ -9,6 +9,13 @@ require("dotenv").config();
 
 const app = express();
 
+// Enable CORS for specific domains
+const allowedOrigins = ['https://101412431-comp3133-ass2.netlify.app'];
+app.use(cors({
+  origin: allowedOrigins,
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 // CORS configuration (allow frontend URL from Vercel)
 const corsOptions = {
     origin: process.env.FRONTEND_URL || "https://101412431-comp3133-assignment2.vercel.app",  // Allow Vercel frontend URL
