@@ -4,6 +4,8 @@ const { ApolloServer } = require("apollo-server-express");
 const connectDB = require("./db");
 const typeDefs = require("./graphql/schema");
 const resolvers = require("./graphql/resolvers");
+const cors = require("cors");
+
 
 require("dotenv").config();
 
