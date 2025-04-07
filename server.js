@@ -10,7 +10,7 @@ require("dotenv").config();
 const app = express();
 
 // Enable CORS for specific domains
-const allowedOrigins = ['https://101412431-comp3133-ass2.netlify.app'];
+const allowedOrigins = ['https://101412431-comp3133-ass2.netlify.app', 'http://localhost:4200'];
 app.use(cors({
   origin: allowedOrigins,
   methods: ['GET', 'POST', 'PUT', 'DELETE'],
